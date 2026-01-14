@@ -9,11 +9,11 @@ Mermaid diagram (GitHub will render this when enabled):
 
 ```mermaid
 graph LR
-  A[Scheduler \n(APScheduler, Mon-Fri 06:00 Europe/Paris)] --> B[Read `sys_prompt.md`]
-  B --> C[OpenAI Client \n(openai v1 or legacy fallback)]
-  C --> D[Sanitizer \n(normalize dates, "Date:" lines)]
-  D --> E[GitHub Publisher \n(create issue via GitHub API)]
-  C --> F[Fallback Handler \n(log and raise on errors)]
+	A[Scheduler<br/>(APScheduler, Mon-Fri 06:00 Europe/Paris)] --> B[Read sys_prompt.md]
+	B --> C[OpenAI Client<br/>(openai v1 or legacy fallback)]
+	C --> D[Sanitizer<br/>(normalize dates, "Date:" lines)]
+	D --> E[GitHub Publisher<br/>(create issue via GitHub API)]
+	C --> F[Fallback Handler<br/>(log and raise on errors)]
 ```
 
 ASCII fallback (for environments without Mermaid):

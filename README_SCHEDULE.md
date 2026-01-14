@@ -2,6 +2,30 @@
 
 Overview
 - Script: `scripts/run_sys_prompt_agent.py`
+This repository includes a GitHub Actions workflow that runs `scripts/run_sys_prompt_agent.py` on weekdays at 06:00 Europe/Paris and can also be triggered manually.
+
+Setup
+-----
+- Add the following repository secrets in the GitHub repository settings:
+  - `OPENAI_API_KEY` — your OpenAI API key (required to call OpenAI).
+  - `GITHUB_TOKEN` — automatically provided to Actions; no manual action required, but keep scope in mind if using a different token.
+
+- The workflow sets `GITHUB_REPO` automatically to the repository (`${{ github.repository }}`).
+
+Usage
+-----
+- To run the job manually, open the repository Actions tab, select "Run sys_prompt_agent", and click "Run workflow" under the `workflow_dispatch` trigger.
+- To run locally for testing:
+
+```bash
+python scripts/run_sys_prompt_agent.py --once
+```
+
+Notes
+-----
+- The workflow schedule uses a UTC cron and performs a timezone check inside the job to ensure the script only runs at 06:00 Europe/Paris local time and on weekdays. This avoids needing Actions cron timezone support and handles DST correctly.
+- Logs and created issues will appear in the repository Issues list. Check the Actions run logs for detailed output.
+
 - Purpose: Read `sys_prompt.md`, run the prompt with an LLM, and publish a GitHub Issue.
 - Schedule: Weekdays at 06:00 CET (implemented via `Europe/Paris` timezone).
 

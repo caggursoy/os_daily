@@ -1,0 +1,47 @@
+name: Run sys_prompt_agent
+
+on:
+  schedule:
+    # Run every day at 07:00 UTC (covers 08:00 Europe/Paris during standard time);
+    # we'll double-check timezone inside the job to ensure correct local hour.
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run script only at 06:00 Europe/Paris weekdays
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          import datetime, pytz, sys
+          tz = pytz.timezone('Europe/Paris')
+          now = datetime.datetime.now(tz)
+          # Only run on weekdays at 06:00 local time
+          if now.weekday() >= 5:
+              print('Not a weekday in Europe/Paris, exiting')
+              sys.exit(0)
+          if now.hour != 6:
+              print(f'Local hour is {now.hour}, not 6 — exiting')
+              sys.exit(0)
+          print('Time check passed — running script')
+          import subprocess
+          subprocess.check_call([sys.executable, 'scripts/run_sys_prompt_agent.py', '--once'])
+          PY

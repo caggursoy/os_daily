@@ -25,8 +25,14 @@ uv install -r requirements.txt
 OPENAI_API_KEY=sk-...
 GITHUB_TOKEN=ghp_...
 GITHUB_REPO=owner/repo
-# Optional
-LANGSMITH_API_KEY=ls-...
+```
+
+Google Docs (optional)
+- If you want the digest appended to a Google Document, add:
+
+```
+GOOGLE_SERVICE_ACCOUNT_JSON=/path/to/service-account.json  # or the JSON string
+GDOC_ID=your_google_doc_id_here
 ```
 
 Running
@@ -70,3 +76,15 @@ Notes
 - The script defaults to `gpt-3.5-turbo`; set `OPENAI_MODEL` env var to change.
 - LangSmith logging is optional and best-effort.
 - Ensure `GITHUB_TOKEN` has `repo` scope to create issues.
+ - Ensure `GITHUB_TOKEN` has `repo` scope to create issues.
+ - The script requires `openai>=1.0.0` (the new v1 python client). If you previously pinned `openai<1.0.0`, upgrade with:
+
+```bash
+pip install --upgrade "openai>=1.0.0"
+```
+
+If you cannot upgrade, pin to the legacy client and revert the script changes by installing `openai==0.28.x` (not recommended):
+
+```bash
+pip install "openai==0.28.1"
+```

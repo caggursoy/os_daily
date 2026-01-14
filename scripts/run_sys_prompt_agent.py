@@ -37,7 +37,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(mess
 
 def _log_env_presence() -> None:
     # Log presence/absence of key environment variables without printing secrets
-    model = os.environ.get("OPENAI_MODEL", "gpt-3.5-turbo")
+    model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
     openai_key_set = bool(os.environ.get("OPENAI_API_KEY"))
     gh_token_set = bool(os.environ.get("GITHUB_TOKEN"))
     gh_repo = os.environ.get("GITHUB_REPO")

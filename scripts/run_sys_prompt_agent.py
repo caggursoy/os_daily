@@ -72,7 +72,12 @@ def call_openai_system(prompt_text: str) -> str:
 
     system_message = prompt_text
     user_message = (
-        "Produce the Open Science News Digest for the past 48 hours" " as described in the system prompt."
+        "Produce ONLY the final Open Science News Digest for the past 48 hours as described in the system prompt. "
+        "Do NOT include any planning, step-by-step reasoning, assistant acknowledgements, or metadata. "
+        "Return only the digest content in plain Markdown. Start with a top-level heading like: 'Open Science News Digest — YYYY-MM-DD'. "
+        "Include an 'Executive Summary' with 3-5 bullet points, then separate sections titled 'Policy', 'Tools', and 'Research'. "
+        "For each item in those sections include: title, one-line summary, and a source link. "
+        "If no relevant items are found in the past 48 hours, return exactly: 'No significant items found in the past 48 hours.'"
     )
 
     # Try OpenAI v1 client patterns first (openai>=1.0.0).
@@ -100,7 +105,7 @@ def call_openai_system(prompt_text: str) -> str:
                     {"role": "system", "content": system_message},
                     {"role": "user", "content": user_message},
                 ],
-                temperature=0.2,
+                temperature=0.0,
                 max_tokens=1500,
             )
 

@@ -8,7 +8,8 @@ Setup
 -----
 - Add the following repository secrets in the GitHub repository settings:
   - `OPENAI_API_KEY` — your OpenAI API key (required to call OpenAI).
-  - `GITHUB_TOKEN` — automatically provided to Actions; no manual action required, but keep scope in mind if using a different token.
+  - `GH_PAT` (optional) — a personal access token (PAT) with `repo`/`issues` scope if you want to supply your own token. Do NOT create secrets with names starting with `GITHUB_` (GitHub prevents creating such secrets).
+  - Note: Actions automatically exposes a `GITHUB_TOKEN` to workflows (available via `${{ secrets.GITHUB_TOKEN }}` in expressions). If you do not provide `GH_PAT`, the workflow will use the built-in `GITHUB_TOKEN` provided by Actions.
 
 - The workflow sets `GITHUB_REPO` automatically to the repository (`${{ github.repository }}`).
 

@@ -1,5 +1,8 @@
 name: Run sys_prompt_agent
 
+permissions:
+  issues: write
+
 on:
   schedule:
     # Run every day at 07:00 UTC (covers 08:00 Europe/Paris during standard time);
@@ -24,24 +27,12 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run script only at 06:00 Europe/Paris weekdays
+      - name: Run sys_prompt_agent script
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use a user-provided PAT if present (recommended name: GH_PAT).
+          # Do NOT create repository secrets that start with 'GITHUB_'.
+          GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
         run: |
-          python - <<'PY'
-          import datetime, pytz, sys
-          tz = pytz.timezone('Europe/Paris')
-          now = datetime.datetime.now(tz)
-          # Only run on weekdays at 06:00 local time
-          if now.weekday() >= 5:
-              print('Not a weekday in Europe/Paris, exiting')
-              sys.exit(0)
-          if now.hour != 6:
-              print(f'Local hour is {now.hour}, not 6 — exiting')
-              sys.exit(0)
-          print('Time check passed — running script')
-          import subprocess
-          subprocess.check_call([sys.executable, 'scripts/run_sys_prompt_agent.py', '--once'])
-          PY
+          python scripts/run_sys_prompt_agent.py --once

@@ -68,7 +68,7 @@ def call_openai_system(prompt_text: str) -> str:
     if not api_key:
         raise EnvironmentError("OPENAI_API_KEY is not set")
 
-    model = os.environ.get("OPENAI_MODEL", "gpt-3.5-turbo")
+    model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
 
     system_message = prompt_text
     user_message = (

@@ -9,3 +9,7 @@ pytz>=2023.3
 google-api-python-client>=2.70.0
 google-auth>=2.20.0
 google-auth-httplib2>=0.1.0
+
+# Parsing for web_search helper
+beautifulsoup4>=4.12.2
+lxml>=4.9.3

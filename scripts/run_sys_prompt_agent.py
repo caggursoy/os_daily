@@ -27,6 +27,7 @@ from dotenv import load_dotenv
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 import pytz
+from web_search import web_search
 
 # Load .env from the repository root (or the current working directory)
 load_dotenv()
@@ -258,6 +259,43 @@ def sanitize_digest_for_issue(body: str, issue_date: datetime.date) -> str:
 def job_once() -> None:
     LOG.info("Job started")
     prompt_text = read_sys_prompt()
+    # Use the web_search helper to gather recent context for the system prompt.
+    search_results = []
+    try:
+        search_results = web_search(prompt_text, max_results=5)
+        if search_results:
+            LOG.info("Found %d web search results to include in context", len(search_results))
+            for i, r in enumerate(search_results, 1):
+                LOG.debug("Search %d: %s <%s>", i, r.get("title"), r.get("url"))
+        else:
+            LOG.info("No web search results returned for prompt_text")
+    except Exception as e:
+        LOG.exception("Web search failed: %s", e)
+
+    # Create a concatenated blob of the search results (title + snippet + URL)
+    def _concat_search_blob(results: list, max_chars: int = 4000) -> str:
+        if not results:
+            return ""
+        pieces = ["Search results (concatenated):"]
+        for r in results:
+            title = (r.get("title") or "").strip()
+            snippet = (r.get("snippet") or "").strip()
+            url = (r.get("url") or "").strip()
+            part = "".join([t for t in [f"Title: {title}" if title else "", f"Snippet: {snippet}" if snippet else "", f"URL: {url}" if url else ""] if t])
+            if part:
+                pieces.append(part)
+            # stop after 10 items to avoid huge prompts
+            if len(pieces) >= 11:
+                break
+        blob = "\n\n".join(pieces)
+        if len(blob) > max_chars:
+            blob = blob[: max_chars - 3] + "..."
+        return blob + "\n\n"
+
+    search_context = _concat_search_blob(search_results)
+    if search_context:
+        prompt_text = search_context + prompt_text
+        print("Prompt text with search context:\n", prompt_text)
     try:
         digest = call_openai_system(prompt_text)
     except Exception as e:
@@ -268,19 +306,21 @@ def job_once() -> None:
     gh_token = os.environ.get("GITHUB_TOKEN")
     gh_repo = os.environ.get("GITHUB_REPO")
     title = build_issue_title(datetime.date.today())
+    
+    # A simple printout for now
+    print("Generated Digest:\n")
+    print(digest)
 
-    if gh_token and gh_repo:
-        try:
-            # Sanitize digest to prevent date hallucinations in headings
-            digest = sanitize_digest_for_issue(digest, datetime.date.today())
-            issue = create_github_issue(gh_repo, gh_token, title, digest)
-            LOG.info("Created GitHub issue: %s", issue.get("html_url"))
-        except Exception as e:
-            LOG.exception("Failed to create GitHub issue: %s", e)
-    else:
-        LOG.info("GITHUB_TOKEN or GITHUB_REPO not set — skipping GitHub publishing")
-
-        # LangSmith logging removed by user request.
+    # if gh_token and gh_repo:
+    #     try:
+    #         # Sanitize digest to prevent date hallucinations in headings
+    #         digest = sanitize_digest_for_issue(digest, datetime.date.today())
+    #         issue = create_github_issue(gh_repo, gh_token, title, digest)
+    #         LOG.info("Created GitHub issue: %s", issue.get("html_url"))
+    #     except Exception as e:
+    #         LOG.exception("Failed to create GitHub issue: %s", e)
+    # else:
+    #     LOG.info("GITHUB_TOKEN or GITHUB_REPO not set — skipping GitHub publishing")
 
 
 def main(run_once: bool = False) -> None:

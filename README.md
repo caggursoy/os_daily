@@ -1,6 +1,8 @@
 # os_daily
 Daily Open Science updates
 
+Check the `.md` files in the `/summaries` folder [here](https://github.com/caggursoy/os_daily/tree/main/summaries)
+
 ## Tavily Summary Script Visualisation
 
 Mermaid diagram for the `scripts/tavily_summary.py` workflow:

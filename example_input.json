@@ -1,0 +1,76 @@
+
+{
+  "query": "Provide the freshest news about Open Science, focusing on the last 48 hours",
+  "time_filter": "last_48_hours",
+  "follow_up_questions": null,
+  "answer": null,
+  "images": [],
+  "results": [
+    {
+      "url": "https://www.science.org/content/article/open-access-publishing-new-mandates-2026",
+      "title": "New Open Access Mandates Accelerate Global Open Science Adoption",
+      "content": "Several national research funding agencies announced updated open access requirements within the past two days, reinforcing immediate open publication of publicly funded research. The policy changes aim to align with Plan S principles and expand reuse rights for data, software, and publications.",
+      "score": 0.91,
+      "raw_content": null,
+      "published_at": "2026-01-19T10:40:00Z"
+    },
+    {
+      "url": "https://www.nature.com/articles/open-research-infrastructure-update",
+      "title": "Open Research Infrastructure Sees Rapid Investment Across Europe",
+      "content": "European universities and research organizations reported new investments in open repositories and open-source research platforms. The developments focus on FAIR data compliance, persistent identifiers, and long-term sustainability of open infrastructures.",
+      "score": 0.87,
+      "raw_content": null,
+      "published_at": "2026-01-20T07:15:00Z"
+    },
+    {
+      "url": "https://openscience.eu/news/community-peer-review-initiative",
+      "title": "Community-Led Peer Review Gains Momentum in Open Science Communities",
+      "content": "An international coalition of open science advocates launched a community-driven peer review initiative designed to complement traditional journals. The model emphasizes transparency, reviewer recognition, and open evaluation workflows.",
+      "score": 0.82,
+      "raw_content": null,
+      "published_at": "2026-01-20T09:30:00Z"
+    },
+    {
+      "url": "https://blog.datacite.org/new-pids-open-research-workflows",
+      "title": "Persistent Identifiers Expanded to Support Open Research Workflows",
+      "content": "Data infrastructure providers announced new extensions to persistent identifier systems, enabling better tracking of datasets, software, instruments, and contributors across open research environments.",
+      "score": 0.79,
+      "raw_content": null,
+      "published_at": "2026-01-20T06:50:00Z"
+    },
+    {
+      "url": "https://www.go-fair.org/news/fair-data-evaluation-framework",
+      "title": "FAIR Data Evaluation Framework Receives Community Endorsement",
+      "content": "A newly released FAIR data assessment framework gained rapid endorsement from research institutions and data stewards, aiming to standardize how openness and reusability of research data are measured.",
+      "score": 0.77,
+      "raw_content": null,
+      "published_at": "2026-01-19T18:20:00Z"
+    },
+    {
+      "url": "https://creativecommons.org/2026/01/open-licenses-research-outputs",
+      "title": "Open Licenses Reaffirmed as Default for Publicly Funded Research Outputs",
+      "content": "Open Science policymakers reiterated the importance of permissive licensing, highlighting Creative Commons licenses as the default mechanism for enabling reuse of publications, data, and educational resources.",
+      "score": 0.75,
+      "raw_content": null,
+      "published_at": "2026-01-19T16:05:00Z"
+    },
+    {
+      "url": "https://researchdataalliance.org/news/open-science-training-focus",
+      "title": "Research Data Alliance Highlights Skills Gap in Open Science Training",
+      "content": "New statements from the Research Data Alliance emphasize the growing need for professional training in open data stewardship, reproducibility, and open research software practices.",
+      "score": 0.73,
+      "raw_content": null,
+      "published_at": "2026-01-20T08:10:00Z"
+    },
+    {
+      "url": "https://sparcopen.org/news/library-led-open-science-services",
+      "title": "Academic Libraries Expand Open Science Support Services",
+      "content": "Academic libraries announced expanded services for open access publishing support, data management planning, and compliance with funder Open Science mandates.",
+      "score": 0.70,
+      "raw_content": null,
+      "published_at": "2026-01-19T14:35:00Z"
+    }
+  ],
+  "response_time": 2.98,
+  "request_id": "c7f4b2fe-41f0-4b9b-9f91-1d6b6dc8a214"
+}

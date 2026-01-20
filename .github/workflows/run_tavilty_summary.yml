@@ -36,7 +36,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
         run: |
-          python scripts/tavily_summary.py --query "Provide the freshest news about Open Science, in the last 48 hours" 
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Manual trigger detected — using example_input.json as input"
+            python scripts/tavily_summary.py --input-json example_input.json
+          else
+            echo "Scheduled/automated trigger detected — running live Tavily query"
+            python scripts/tavily_summary.py --query "Provide the freshest news about Open Science, focusing on the last 48 hours"
+          fi
 
       - name: Commit and push summaries
         if: ${{ always() }}

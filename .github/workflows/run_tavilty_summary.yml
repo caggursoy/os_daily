@@ -1,0 +1,38 @@
+name: Run tavily_summary
+
+permissions:
+  issues: write
+
+on:
+  schedule:
+    # Run every day at 07:00 UTC (covers 08:00 Europe/Paris during standard time);
+    - cron: '0 8 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run tavily_summary script
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+          # Use a user-provided PAT if present (recommended name: GH_PAT).
+          # Do NOT create repository secrets that start with 'GITHUB_'.
+          GITHUB_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+          GITHUB_REPO: ${{ github.repository }}
+        run: |
+          python scripts/tavily_summary.py --query "Provide the freshest news about Open Science, in the last 48 hours" 

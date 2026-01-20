@@ -1,6 +1,7 @@
 name: Run tavily_summary
 
 permissions:
+  contents: write
   issues: write
 
 on:
@@ -36,3 +37,20 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
         run: |
           python scripts/tavily_summary.py --query "Provide the freshest news about Open Science, in the last 48 hours" 
+
+      - name: Commit and push summaries
+        if: ${{ always() }}
+        env:
+          GIT_TOKEN: ${{ secrets.GH_PAT || secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add summaries || true
+          # Only commit if there are changes
+          if ! git diff --cached --quiet; then
+            git commit -m "ci: add/update daily tavily summary (generated)"
+            # Use token to push
+            git push https://${GIT_TOKEN}@github.com/${{ github.repository }} HEAD:${{ github.ref_name }}
+          else
+            echo "No changes to commit"
+          fi

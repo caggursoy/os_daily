@@ -235,7 +235,6 @@ def call_openai_summary(search_blob: str, query: str) -> str:
                 temperature=0.7,
                 max_tokens=1000,
             )
-            print(resp)
             choice = resp.choices[0]
             # extract text robustly for different client shapes
             text = None

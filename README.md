@@ -33,14 +33,14 @@ Build search context blob -> Call OpenAI (v1 or legacy fallback)
 Format email-style Markdown -> Write to `summaries/YYYY-MM-DD.md`
 ```
 
-Usage notes for `scripts/tavily_summary.py`:
+### Usage notes for `scripts/tavily_summary.py`:
 
 - **Env vars:** `TAVILY_API_KEY`, `OPENAI_API_KEY` (optional: `TAVILY_API_URL`, `OPENAI_MODEL`, `TAVILY_CA_BUNDLE`)
 - **Run locally:** `python scripts/tavily_summary.py --query "your query"`
 - **Use example input:** `python scripts/tavily_summary.py --input-json example_input.json`
 
 
-## Daily Agent Visualization **(deprecated)**
+## Daily Agent Visualization *(deprecated)*
 
 Below is a simple visualization and explanation of the agent implemented in `scripts/run_sys_prompt_agent.py`.
 
@@ -82,7 +82,7 @@ Key components:
 - **Sanitizer:** Normalizes headings/date lines to prevent hallucinated dates in issues.
 - **GitHub Publisher:** Creates an issue in the repository specified by the `GITHUB_REPO` env var using `GITHUB_TOKEN`.
 
-Usage notes:
+### Usage notes:
 
 - Set environment variables in a `.env` file or system env: `OPENAI_API_KEY`, `GITHUB_TOKEN`, `GITHUB_REPO`.
 - Run once: `python scripts/run_sys_prompt_agent.py --once`.

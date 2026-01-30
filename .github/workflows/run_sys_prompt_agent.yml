@@ -4,10 +4,10 @@ permissions:
   issues: write
 
 on:
-  schedule:
-    # Run every day at 07:00 UTC (covers 08:00 Europe/Paris during standard time);
-    # we'll double-check timezone inside the job to ensure correct local hour.
-    - cron: '0 8 * * *'
+  # schedule:
+  #   # Run every day at 07:00 UTC (covers 08:00 Europe/Paris during standard time);
+  #   # we'll double-check timezone inside the job to ensure correct local hour.
+  #   - cron: '0 8 * * *'
   workflow_dispatch:
 
 jobs:
